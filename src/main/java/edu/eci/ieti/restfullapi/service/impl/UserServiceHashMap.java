@@ -38,22 +38,25 @@ public class UserServiceHashMap implements UserService {
 	}
 
 	@Override
-	public void deleteById(String id) {
-		users.remove(id);
+	public Boolean deleteById(String id) {
+		Boolean wasDeleted;
+		User deletedUser = users.remove(id);
+		if (deletedUser != null) {
+			wasDeleted = true;
+		}
+		else {
+			wasDeleted = false;
+		}
+		return wasDeleted;
 	}
 
 	@Override
 	public User update(UserDto userDto, String userId) {
 		User user = users.get(userId);
-		try {
-			user.setName(userDto.getName());
-			user.setEmail(userDto.getEmail());
-			user.setLastName(userDto.getLastName());
-			users.put(userId, user);
-			return users.get(userId);
-			
-		} catch (NullPointerException e) {
-			return null;
-		}
+		user.setName(userDto.getName());
+		user.setEmail(userDto.getEmail());
+		user.setLastName(userDto.getLastName());
+		users.put(userId, user);
+		return users.get(userId);
 	}
 }

@@ -59,24 +59,36 @@ public class UserController {
 	@PostMapping
     public ResponseEntity<User> create( @RequestBody UserDto userDto ) {
 		User user = null;
-         try {
-        	 user = userService.create(new User(userDto));
-         } catch (Exception e) {
-        	 Logger.getLogger(UserController.class.getName()).log(Level.SEVERE, null, e);
-        	 return new ResponseEntity<User>(user, HttpStatus.BAD_REQUEST);
-         }
-         return new ResponseEntity<User>(user, HttpStatus.ACCEPTED);
+        try {
+        	user = userService.create(new User(userDto));
+        } catch (Exception e) {
+        	Logger.getLogger(UserController.class.getName()).log(Level.SEVERE, null, e);
+        	return new ResponseEntity<User>(user, HttpStatus.BAD_REQUEST);
+        }
+        return new ResponseEntity<User>(user, HttpStatus.ACCEPTED);
     }
    
     @PutMapping( "/{id}" )
     public ResponseEntity<User> update( @RequestBody UserDto userDto, @PathVariable String id ) {
-         //TODO implement this method using UserService
-         return null;
+    	User user = null;
+        try {
+        	user = userService.update(userDto, id);
+        } catch (Exception e) {
+        	Logger.getLogger(UserController.class.getName()).log(Level.SEVERE, null, e);
+        	return new ResponseEntity<User>(user, HttpStatus.NOT_FOUND);
+        };
+        return new ResponseEntity<User>(user, HttpStatus.ACCEPTED);
     }
 
     @DeleteMapping( "/{id}" )
     public ResponseEntity<Boolean> delete( @PathVariable String id ) {
-         //TODO implement this method using UserService
-        return null;      
+    	Boolean response = false;
+        try {
+        	response = userService.deleteById(id);
+        } catch (Exception e) {
+        	Logger.getLogger(UserController.class.getName()).log(Level.SEVERE, null, e);
+        	return new ResponseEntity<Boolean>(response, HttpStatus.BAD_REQUEST);
+        };
+        return new ResponseEntity<Boolean>(response, HttpStatus.ACCEPTED);
     }
 }

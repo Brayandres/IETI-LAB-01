@@ -13,7 +13,7 @@ public interface UserService {
     
     List<User> getAll();
 
-    void deleteById( String id );
+    Boolean deleteById( String id );
 
     User update( UserDto userDto, String userId );
 }
